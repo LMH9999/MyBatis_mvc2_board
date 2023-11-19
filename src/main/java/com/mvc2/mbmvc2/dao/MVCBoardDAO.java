@@ -25,4 +25,12 @@ public class MVCBoardDAO  {
         sqlSession.close();
         return result;
     }
+
+    public List<MVCBoardDTO> selectListPageWithPaging(Map<String, Object> map) {
+        SqlSession sqlSession = MyBatisSessionFactory.getSqlSession();
+        MVCBoardMapper mapper = sqlSession.getMapper(MVCBoardMapper.class);
+        List<MVCBoardDTO> result = mapper.selectListPageWithPaging(map);
+        sqlSession.close();
+        return result;
+    }
 }

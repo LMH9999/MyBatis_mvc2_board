@@ -10,4 +10,6 @@ import java.util.Map;
 public interface MVCBoardMapper {
     int selectCount(Map<String, Object> map);
     List<MVCBoardDTO> selectListPage(Map<String, Object> map);
+
+    List<MVCBoardDTO> selectListPageWithPaging(Map<String, Object> map);
 }
