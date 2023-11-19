@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mvc2.mbmvc2.mybatis.MVCBoardMapper">
+    <select id="selectCount" parameterType="map" resultType="int">
+        select count(*)
+        from mvcboard
+        order by idx desc
+    </select>
+
+    <select id="selectListPage" parameterType="map" resultType="com.mvc2.mbmvc2.dto.MVCBoardDTO">
+        SELECT *
+        FROM mvcboard
+        order by idx desc
+    </select>
+</mapper>
