@@ -1,12 +1,0 @@
-
-j
-java:S1104"OMake con a static final constant or non-public and provide accessors if needed.(Àåâçùÿÿÿÿ
-k
-java:S1104"PMake stmt a static final constant or non-public and provide accessors if needed.(µ³Ó¤úÿÿÿÿ
-f
-java:S1104"PMake psmt a static final constant or non-public and provide accessors if needed.(™Ôî˜
-i
-java:S1104"NMake rs a static final constant or non-public and provide accessors if needed.(àğÓÿÿÿÿÿ
-E	java:S106"+Replace this use of System.out by a logger.(õŞóÀşÿÿÿÿ
-E	java:S106 "+Replace this use of System.out by a logger.(¢êåÛüÿÿÿÿ
-E	java:S106-"+Replace this use of System.out by a logger.(¡ÎËÿÿÿÿÿ

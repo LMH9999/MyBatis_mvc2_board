@@ -72,7 +72,7 @@ public class EditController extends HttpServlet {
         dto.setPass(pass);
 
 //        // 원본 파일명과 저장된 파일 이름 설정
-        if (originalFileName != "") {
+        if (originalFileName != null && !originalFileName.equals("")) {
             String savedFileName = FileUtil.renameFile(saveDirectory, originalFileName);
 
             dto.setOfile(originalFileName);  // 원래 파일 이름
