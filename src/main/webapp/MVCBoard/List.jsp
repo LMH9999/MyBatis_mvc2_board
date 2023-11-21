@@ -1,34 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <meta charset="UTF-8">
+    <title>파일 첨부형 게시판</title>
+    <style>a{text-decoration:none;}</style>
 </head>
 <body>
-<%--<table border="1" width="90%">--%>
-<%--    <c:choose>--%>
-<%--        <c:when test="${empty boardLists}">--%>
-<%--            <tr>--%>
-<%--                <td colspan="6" align="center">등록된 게시물이 없습니다^^*</td>--%>
-<%--            </tr>--%>
-<%--        </c:when>--%>
-<%--        <c:otherwise>--%>
-<%--            <h5>등록된 게시물 개수 : ${totalCount}</h5>--%>
-<%--            <c:forEach items="${boardLists}" var="row" varStatus="loop">--%>
-<%--                <tr align="center">--%>
-<%--                    <td align="left">--%>
-<%--                        <a href="../mvcboard/view.do?idx=${row.idx}">${row.title}</a>--%>
-<%--                    </td>--%>
-<%--                    <td>${row.name}</td>--%>
-<%--                    <td>${row.visitcount}</td>--%>
-<%--                    <td>${row.postdate}</td>--%>
-<%--                </tr>--%>
-<%--            </c:forEach>--%>
-<%--        </c:otherwise>--%>
-<%--    </c:choose>--%>
-<%--</table>--%>
+<h2>파일 첨부형 게시판 - 목록 보기(List)</h2>
 
+<!-- 검색 폼 -->
+<form method="get">
+    <table border="1" width="90%">
+        <tr>
+            <td align="center">
+                <select name="searchField">
+                    <option value="title">제목</option>
+                    <option value="content">내용</option>
+                </select>
+                <input type="text" name="searchWord" value="${ param.searchWord }" />
+                <input type="submit" value="검색하기" />
+            </td>
+        </tr>
+    </table>
+</form>
+
+<!-- 목록 테이블 -->
 <table border="1" width="90%">
     <tr>
         <th width="10%">번호</th>
@@ -39,64 +38,45 @@
         <th width="8%">첨부</th>
     </tr>
     <c:choose>
-        <c:when test="${empty boardLists}">
+        <c:when test="${ empty boardLists }">  <!-- 게시물이 없을 때 -->
             <tr>
-                <td colspan="6" align="center">등록된 게시물이 없습니다^^*</td>
+                <td colspan="6" align="center">
+                    등록된 게시물이 없습니다^^*
+                </td>
             </tr>
         </c:when>
-        <c:otherwise>
-            <h5>등록된 게시물 개수 : ${requestScope.pageMaker.totalCount}</h5>
-            <c:set var="no" value="${pageMaker.totalCount - ((pageMaker.cri.pageNum - 1) * 10)}" />
-            <c:forEach items="${boardLists}" var="row" varStatus="loop">
+        <c:otherwise>  <!-- 게시물이 있을 때 -->
+            <c:forEach items="${ boardLists }" var="row" varStatus="loop">
                 <tr align="center">
-                    <td>
-                            ${no}
+                    <td>  <!-- 번호 -->
+                            ${ map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}
                     </td>
-                    <td align="left">
-                        <a href="../mvcboard/view.do?idx=${row.idx}">${row.title}</a>
+                    <td align="left">  <!-- 제목(링크) -->
+                        <a href="../mvcboard/view.do?idx=${ row.idx }">${ row.title }</a>
                     </td>
-                    <td>${row.name}</td>
-                    <td>${row.visitcount}</td>
-                    <td>${row.postdate}</td>
-                    <td>
-                            <%--                            첨부 파일--%>
-                        <c:if test="${not empty row.ofile}">
-                            <a href="../mvcboard/download.do?ofile=${row.ofile}&sfile=${row.sfile}&idx=${row.idx}">
-                                [Down]</a>
+                    <td>${ row.name }</td>  <!-- 작성자 -->
+                    <td>${ row.visitcount }</td>  <!-- 조회수 -->
+                    <td>${ row.postdate }</td>  <!-- 작성일 -->
+                    <td>  <!-- 첨부 파일 -->
+                        <c:if test="${ not empty row.ofile }">
+                            <a href="../mvcboard/download.do?ofile=${ row.ofile }&sfile=${ row.sfile }&idx=${ row.idx }">[Down]</a>
                         </c:if>
                     </td>
                 </tr>
-                <c:set var="no" value="${no - 1}" />
             </c:forEach>
         </c:otherwise>
     </c:choose>
 </table>
 
-<c:if test="${requestScope.pageMaker.totalCount > 0 and not empty boardLists}">
-    <br><br>
-    <div class="container">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <c:if test="${pageMaker.prev}">
-                    <li class="page-item"><a class="page-link" href="${pageMaker.startPage - 1}">이전</a></li>
-                </c:if>
-                <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-                    <c:choose>
-                        <c:when test="${pageMaker.cri.pageNum == num}">
-                            <a href="../mvcboard/list.do?pageNum=${num}"> ${num}</a>
-                        </c:when>
-                        <c:otherwise>
-                            <a href="../mvcboard/list.do?pageNum=${num}"> ${num}</a>
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
-                <c:if test="${pageMaker.next}">
-                    <li class="page-item"><a class="page-link" href="${pageMaker.endPage + 1}">다음</a></li>
-                </c:if>
-            </ul>
-        </nav>
-    </div>
-</c:if>
-
+<!-- 하단 메뉴(바로가기, 글쓰기) -->
+<table border="1" width="90%">
+    <tr align="center">
+        <td>
+            ${ map.pagingImg }
+        </td>
+        <td width="100"><button type="button"
+                                onclick="location.href='../mvcboard/write.do';">글쓰기</button></td>
+    </tr>
+</table>
 </body>
 </html>

@@ -1,0 +1,12 @@
+
+t
+java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(™ºöºıÿÿÿÿ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(¶È 
+t
+java:S1989("YHandle the following exception that could be thrown by "parseInt": NumberFormatException.(äƒšüÿÿÿÿ
+o
+java:S1989)"YHandle the following exception that could be thrown by "parseInt": NumberFormatException.(Ø¾—ç
+t
+java:S1989/"YHandle the following exception that could be thrown by "parseInt": NumberFormatException.(ÔÇÛ¸ûÿÿÿÿ
+w
+java:S1989G"aHandle the following exceptions that could be thrown by "forward": ServletException, IOException.(§Ã³

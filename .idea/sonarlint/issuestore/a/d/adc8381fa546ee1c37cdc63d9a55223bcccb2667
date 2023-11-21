@@ -1,0 +1,19 @@
+
+t
+java:S2293%"YReplace the type specification in this constructor call with the diamond operator ("<>").(îÌÕûøÿÿÿÿ
+f
+java:S1192"KDefine a constant instead of duplicating this literal "searchWord" 4 times.(ï¨¾Îûÿÿÿÿ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(¶È 
+€
+java:S1149%"eReplace the synchronized class "Vector" by an unsynchronized one such as "ArrayList" or "LinkedList".(îÌÕûøÿÿÿÿ
+@	java:S106"+Replace this use of System.out by a logger.(­™Ÿš
+V	java:S1257"<This block of commented-out lines of code should be removed.(ÿÉ¯âùÿÿÿÿ
+Q	java:S125E"<This block of commented-out lines of code should be removed.(Ùğ‡
+V	java:S125X"<This block of commented-out lines of code should be removed.(ö¦©³üÿÿÿÿ
+?	java:S106g"+Replace this use of System.out by a logger.(¶ÖÀX
+@	java:S106"+Replace this use of System.out by a logger.(÷Òšª
+F	java:S106œ"+Replace this use of System.out by a logger.(˜šıÿÿÿÿ
+F	java:S106­"+Replace this use of System.out by a logger.(¸ˆ“¡ÿÿÿÿÿ
+?	java:S108¼")Either remove or fill this block of code.(‚Üò
+F	java:S106İ"+Replace this use of System.out by a logger.(ÏÅßŒùÿÿÿÿ
+F	java:S106ú"+Replace this use of System.out by a logger.(›ú—ñùÿÿÿÿ

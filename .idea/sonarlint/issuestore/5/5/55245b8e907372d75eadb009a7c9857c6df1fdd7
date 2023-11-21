@@ -1,0 +1,23 @@
+
+’
+java:S1319F"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(İåØÕúÿÿÿÿ8—¦ÿ„¿1
+o
+java:S2095o"MUse try-with-resources or close this "FileInputStream" in a "finally" clause.(ß«ãİıÿÿÿÿ8É¦ÿ„¿1
+\
+java:S1118":Add a private constructor to hide the implicit public one.(‡ÛŸÚıÿÿÿÿ8Ë¦ÿ„¿1
+L	java:S106$"+Replace this use of System.out by a logger.(Ø¯ö­üÿÿÿÿ8Ì¦ÿ„¿1
+Y	java:S899?"=Do something with the "boolean" value returned by "renameTo".(µÎçÀ8Î¦ÿ„¿1
+L	java:S106U"+Replace this use of System.out by a logger.(Ø¯ö­üÿÿÿÿ8Ï¦ÿ„¿1
+`
+java:S4719t">Replace charset name argument with StandardCharsets.ISO_8859_1(ş”Óùüÿÿÿÿ8Ò¦ÿ„¿1
+[
+java:S4719t"9Replace charset name argument with StandardCharsets.UTF_8(ş”Óùüÿÿÿÿ8Ò¦ÿ„¿1
+`
+java:S4719w">Replace charset name argument with StandardCharsets.ISO_8859_1(šŠäûùÿÿÿÿ8Ò¦ÿ„¿1
+H
+java:S1197‡"*Move the array designators [] to the type.(ø—ù 8Ò¦ÿ„¿1
+G	java:S106’"+Replace this use of System.out by a logger.(Æ­ú8Ò¦ÿ„¿1
+H	java:S106–"+Replace this use of System.out by a logger.(ûÿ¤²8Ó¦ÿ„¿1
+]	java:S899¡";Do something with the "boolean" value returned by "delete".(²Œ­ûÿÿÿÿ8Ó¦ÿ„¿1
+q
+java:S4042¡"NUse "java.nio.file.Files#delete" here for better messages on error conditions.(²Œ­ûÿÿÿÿ8Ó¦ÿ„¿1

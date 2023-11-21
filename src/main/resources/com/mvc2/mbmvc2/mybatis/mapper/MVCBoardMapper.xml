@@ -6,22 +6,81 @@
     <select id="selectCount" parameterType="map" resultType="int">
         select count(*)
         from mvcboard
-        order by idx desc
-    </select>
-
-    <select id="selectListPage" parameterType="map" resultType="com.mvc2.mbmvc2.dto.MVCBoardDTO">
-        SELECT *
-        FROM mvcboard
+        <if test="searchWord != null and !searchWord.equals('')">
+            where
+            <choose>
+                <when test="searchField == 'title'">
+                    title like concat('%', #{searchWord}, '%')
+                </when>
+                <otherwise>
+                    content like concat('%', #{searchWord}, '%')
+                </otherwise>
+            </choose>
+        </if>
         order by idx desc
     </select>
 
     <select id="selectListPageWithPaging" parameterType="map" resultType="com.mvc2.mbmvc2.dto.MVCBoardDTO">
-        <![CDATA[
-        SELECT *
-        FROM mvcboard
-        WHERE idx > 0
-        ]]>
-        order by idx desc
-        LIMIT #{pageNum}, 10
+        SELECT * FROM
+            ( SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, b.*
+            FROM  mvcboard b,(SELECT @ROWNUM := 0 ) TMP
+
+        <if test="searchWord != null and !searchWord.equals('')">
+            <choose>
+                <when test="searchField == 'title'">
+                    WHERE title LIKE CONCAT('%', #{searchWord}, '%')
+                </when>
+                <otherwise>
+                    WHERE content LIKE CONCAT('%', #{searchWord}, '%')
+                </otherwise>
+            </choose>
+        </if>
+
+        ORDER BY idx DESC ) T
+        WHERE ROWNUM BETWEEN #{ start } AND #{ end } ;
     </select>
+
+    <insert id="insertWrite" parameterType="com.mvc2.mbmvc2.dto.MVCBoardDTO">
+        INSERT
+        INTO mvcboard(name, title, content, ofile, sfile, pass)
+        VALUES(#{name}, #{title}, #{content}, #{ofile}, #{sfile}, #{pass})
+    </insert>
+
+    <select id="selectView" parameterType="String" resultType="com.mvc2.mbmvc2.dto.MVCBoardDTO">
+        select *
+        from mvcboard
+        where idx = #{idx}
+    </select>
+
+    <update id="updateVisitCount" parameterType="String">
+        update mvcboard
+        set visitcount = visitcount + 1
+        where idx = #{idx}
+        <!--        이 실행 결과로 인해서 실제 update된 row의 개수를 return-->
+    </update>
+
+    <select id="confirmPassword" parameterType="map">
+        select count(idx)
+        from mvcboard
+        where pass = #{pass} and idx = #{idx}
+    </select>
+
+    <delete id="deletePost">
+        delete
+        from mvcboard
+        where idx = #{idx}
+    </delete>
+
+    <update id="updatePost" parameterType="com.mvc2.mbmvc2.dto.MVCBoardDTO">
+        update mvcboard
+        set title = #{title}, name = #{name},
+        content = #{content}, ofile = #{ofile}, sfile = #{sfile}
+        where idx = #{idx} and pass = #{pass}
+    </update>
+
+    <update id="downCountPlus" parameterType="String">
+        update mvcboard
+        set downcount = downcount + 1
+        where idx = #{idx}
+    </update>
 </mapper>

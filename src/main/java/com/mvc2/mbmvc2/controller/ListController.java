@@ -1,56 +1,78 @@
 package com.mvc2.mbmvc2.controller;
 
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.mvc2.mbmvc2.dao.MVCBoardDAO;
 import com.mvc2.mbmvc2.dto.MVCBoardDTO;
-import com.mvc2.mbmvc2.utils.Criteria;
-import com.mvc2.mbmvc2.utils.PageMaker;
+import com.mvc2.mbmvc2.utils.BoardPage;
 
 @WebServlet("/mvcboard/list.do")
 public class ListController extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        // DAO 생성
         MVCBoardDAO dao = new MVCBoardDAO();
-        Map<String, Object> map = new HashMap<>();
-        int totalCount = dao.selectCount(map);;
-        System.out.println(totalCount);
-//        List<MVCBoardDTO> boardLists = dao.selectListPage(map);
 
-        String pageNum = request.getParameter("pageNum");
-        Criteria criteria = new Criteria();
-        int pageNumInt = 1;
-        if (pageNum != null && !pageNum.equals("")) {
-            try {
-                pageNumInt = Integer.parseInt(pageNum.trim());
-            } catch (Exception e) {
-                System.out.println("숫자로 변환할 수 없는 pageNum");
-                // default로 1을 준다.
-            }
+        // 뷰에 전달할 매개변수 저장용 맵 생성
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        String searchField = req.getParameter("searchField");
+        String searchWord = req.getParameter("searchWord");
+        if (searchWord != null) {
+            // 쿼리스트링으로 전달받은 매개변수 중 검색어가 있다면 map에 저장
+            map.put("searchField", searchField);
+            map.put("searchWord", searchWord);
         }
-        criteria.setPageNum(pageNumInt);
+        int totalCount = dao.selectCount(map);  // 게시물 개수
 
-        map.put("pageNum", (criteria.getPageNum() - 1) * 10);
-        List<MVCBoardDTO> boardLists = dao.selectListPageWithPaging(map);
+        /* 페이지 처리 start */
+        ServletContext application = getServletContext();
+        int pageSize = Integer.parseInt(application.getInitParameter("POSTS_PER_PAGE"));
+        int blockPage = Integer.parseInt(application.getInitParameter("PAGES_PER_BLOCK"));
+
+        // 현재 페이지 확인
+        int pageNum = 1;  // 기본값
+        String pageTemp = req.getParameter("pageNum");
+        if (pageTemp != null && !pageTemp.equals(""))
+            pageNum = Integer.parseInt(pageTemp); // 요청받은 페이지로 수정
+
+        // 목록에 출력할 게시물 범위 계산
+        int start = (pageNum - 1) * pageSize + 1;  // 첫 게시물 번호
+        int end = pageNum * pageSize; // 마지막 게시물 번호
+        map.put("start", start);
+        map.put("end", end);
+        /* 페이지 처리 end */
+
+        List<MVCBoardDTO> boardLists = dao.selectListPageWithPaging(map);  // 게시물 목록 받기
+//        dao.close(); // DB 연결 닫기
+
+        // 뷰에 전달할 매개변수 추가
+        String pagingImg = BoardPage.pagingStr(totalCount, pageSize,
+                blockPage, pageNum,searchField,searchWord, "../mvcboard/list.do");  // 바로가기 영역 HTML 문자열
+        System.out.println(totalCount);
+        map.put("pagingImg", pagingImg);
+        map.put("totalCount", totalCount);
+        map.put("pageSize", pageSize);
+        map.put("pageNum", pageNum);
 
 
-        PageMaker pageMaker = new PageMaker(criteria, totalCount);
-        request.setAttribute("pageMaker", pageMaker);
-        map.remove("pageNum");
-        request.setAttribute("map", map);
-
-
-        request.setAttribute("totalCount",totalCount);
-        request.setAttribute("boardLists", boardLists);
-        request.getRequestDispatcher("/MVCBoard/List.jsp").forward(request, response);
+        // 전달할 데이터를 request 영역에 저장 후 List.jsp로 포워드
+        req.setAttribute("boardLists", boardLists);
+        req.setAttribute("map", map);
+        req.getRequestDispatcher("/MVCBoard/List.jsp").forward(req, resp);
     }
 }
