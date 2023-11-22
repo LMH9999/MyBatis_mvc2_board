@@ -65,6 +65,7 @@
         where pass = #{pass} and idx = #{idx}
     </select>
 
+
     <delete id="deletePost">
         delete
         from mvcboard

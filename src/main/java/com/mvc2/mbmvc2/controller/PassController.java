@@ -1,6 +1,7 @@
 package com.mvc2.mbmvc2.controller;
 
 import com.mvc2.mbmvc2.dao.MVCBoardDAO;
+import com.mvc2.mbmvc2.utils.Encrypt;
 import com.mvc2.mbmvc2.utils.FileUtil;
 import com.mvc2.mbmvc2.dto.MVCBoardDTO;
 import com.mvc2.mbmvc2.utils.JSFunction;
@@ -28,9 +29,10 @@ public class PassController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         // 매개변수 저장
+        Encrypt en = new Encrypt();
         String idx = req.getParameter("idx");
         String mode = req.getParameter("mode");
-        String pass = req.getParameter("pass");
+        String pass = en.getEncrypt(req.getParameter("pass"));
 
         // 비밀번호 확인
         MVCBoardDAO dao = new MVCBoardDAO();

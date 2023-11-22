@@ -2,6 +2,7 @@ package com.mvc2.mbmvc2.controller;
 
 import com.mvc2.mbmvc2.dao.MVCBoardDAO;
 import com.mvc2.mbmvc2.dto.MVCBoardDTO;
+import com.mvc2.mbmvc2.utils.Encrypt;
 import com.mvc2.mbmvc2.utils.FileUtil;
 import com.mvc2.mbmvc2.utils.JSFunction;
 
@@ -52,11 +53,12 @@ public class WriteController extends HttpServlet {
 
         // 2. 파일 업로드 외 처리 =============================
         // 폼값을 DTO에 저장
+        Encrypt en = new Encrypt();
         MVCBoardDTO dto = new MVCBoardDTO();
         dto.setName(req.getParameter("name"));
         dto.setTitle(req.getParameter("title"));
         dto.setContent(req.getParameter("content"));
-        dto.setPass(req.getParameter("pass"));
+        dto.setPass(en.getEncrypt(req.getParameter("pass")));
 
         // 원본 파일명과 저장된 파일 이름 설정
         if (originalFileName != null && !originalFileName.equals("")){
