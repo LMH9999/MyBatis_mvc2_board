@@ -1,6 +1,3 @@
-# MyBatis_mvc2_board
-LMH_Jsp_SPrj에서 만들었던 게시판을 마이바티스로 변경하기
-
 # JSP Personal Project -2-
 
 ## 💾프로젝트
